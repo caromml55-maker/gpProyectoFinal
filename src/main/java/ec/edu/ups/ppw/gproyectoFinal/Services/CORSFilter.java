@@ -9,7 +9,8 @@ import jakarta.ws.rs.ext.Provider;
 public class CORSFilter implements ContainerResponseFilter{
 
 	@Override
-	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) {
+	public void filter(ContainerRequestContext requestContext, 
+			ContainerResponseContext responseContext) {
 		responseContext.getHeaders().add(
 				"Access-Control-Allow-Origin","*");
 		
