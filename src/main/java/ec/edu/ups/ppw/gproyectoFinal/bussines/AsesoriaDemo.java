@@ -17,18 +17,18 @@ public class AsesoriaDemo {
     @PostConstruct
     public void init() {
 
-    	Asesoria a1 = new Asesoria();
+    	/*Asesoria a1 = new Asesoria();
         a1.setId("A1");
         a1.setComentario("Necesito ayuda con Angular");
         a1.setEstado("aceptada");
         a1.setFechaHora("2025-12-17T10:30:00-05:00");
-        a1.setProgramadorId("PROG123");
+        a1.setProgramador(null);
         a1.setRespuesta("Aceptada");
         a1.setUsuarioId("USER123");
 
         dao.insert(a1);
 
-        System.out.println(" Asesoría insertada");
+        System.out.println(" Asesoría insertada");*/
     }
     
 }

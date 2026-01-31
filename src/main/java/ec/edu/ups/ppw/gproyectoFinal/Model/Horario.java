@@ -1,5 +1,7 @@
 package ec.edu.ups.ppw.gproyectoFinal.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,6 +26,7 @@ public class Horario {
 
     @ManyToOne
     @JoinColumn(name = "hor_programador_id")
+    @JsonIgnore
     private User programador;
 
     // GETTERS & SETTERS

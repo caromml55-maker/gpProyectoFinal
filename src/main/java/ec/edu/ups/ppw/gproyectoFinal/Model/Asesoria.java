@@ -1,5 +1,7 @@
 package ec.edu.ups.ppw.gproyectoFinal.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -17,64 +19,80 @@ public class Asesoria {
 
 	    @Column(name = "ase_fecha_hora")
 	    private String fechaHora;
-
-	    @Column(name = "ase_programador_id")
-	    private String programadorId;
-
+	    
 	    @Column(name = "ase_respuesta")
 	    private String respuesta;
+	    
+	    
+	    @ManyToOne
+	    @JoinColumn(name = "ase_programador_id")
+	    @JsonIgnore
+	    private User programador;
 
-	    @Column(name = "ase_usuario_id")
-	    private String usuarioId;
+	    @ManyToOne
+	    @JoinColumn(name = "ase_usuario_id")
+	    @JsonIgnore
+	    private User usuario;
+	    
+	    
 
-	    // GETTERS & SETTERS
+		public String getId() {
+			return id;
+		}
 
-	    public String getId() {
-	        return id;
-	    }
-	    public void setId(String id) {
-	        this.id = id;
-	    }
+		public void setId(String id) {
+			this.id = id;
+		}
 
-	    public String getComentario() {
-	        return comentario;
-	    }
-	    public void setComentario(String comentario) {
-	        this.comentario = comentario;
-	    }
+		public String getComentario() {
+			return comentario;
+		}
 
-	    public String getEstado() {
-	        return estado;
-	    }
-	    public void setEstado(String estado) {
-	        this.estado = estado;
-	    }
+		public void setComentario(String comentario) {
+			this.comentario = comentario;
+		}
 
-	    public String getFechaHora() {
-	        return fechaHora;
-	    }
-	    public void setFechaHora(String fechaHora) {
-	        this.fechaHora = fechaHora;
-	    }
+		public String getEstado() {
+			return estado;
+		}
 
-	    public String getProgramadorId() {
-	        return programadorId;
-	    }
-	    public void setProgramadorId(String programadorId) {
-	        this.programadorId = programadorId;
-	    }
+		public void setEstado(String estado) {
+			this.estado = estado;
+		}
 
-	    public String getRespuesta() {
-	        return respuesta;
-	    }
-	    public void setRespuesta(String respuesta) {
-	        this.respuesta = respuesta;
-	    }
+		public String getFechaHora() {
+			return fechaHora;
+		}
 
-	    public String getUsuarioId() {
-	        return usuarioId;
-	    }
-	    public void setUsuarioId(String usuarioId) {
-	        this.usuarioId = usuarioId;
-	    }
-}
+		public void setFechaHora(String fechaHora) {
+			this.fechaHora = fechaHora;
+		}
+
+		public String getRespuesta() {
+			return respuesta;
+		}
+
+		public void setRespuesta(String respuesta) {
+			this.respuesta = respuesta;
+		}
+
+		public User getProgramador() {
+			return programador;
+		}
+
+		public void setProgramador(User programador) {
+			this.programador = programador;
+		}
+
+		public User getUsuario() {
+			return usuario;
+		}
+
+		public void setUsuario(User usuario) {
+			this.usuario = usuario;
+		}
+
+}    
+
+	    
+	    

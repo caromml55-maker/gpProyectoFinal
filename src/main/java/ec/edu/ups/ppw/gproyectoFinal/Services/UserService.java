@@ -1,128 +1,84 @@
 package ec.edu.ups.ppw.gproyectoFinal.Services;
 
-import java.net.URI;
+
 import java.util.List;
 import ec.edu.ups.ppw.gproyectoFinal.Model.*;
 import ec.edu.ups.ppw.gproyectoFinal.bussines.GestionUsers;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
 
-@Path("user")
+
+@Path("/")
+@Consumes("application/json")
+@Produces("application/json")
 public class UserService {
 	
 	@Inject
-	private GestionUsers gp;
-	
-	@GET
-	@Produces("application/json")
-	public Response getListaPersonas(){
-	List<User> listado = gp.getPersona();
-		return Response.ok(listado).build();  //status code 200
-	}
-	
-	
-	@GET
-	@Path("/{uid}")
-	@Produces("application/json")
-	public Response getPersona(@PathParam("uid") String cedula) {
-		User p;
-		try {
-			p = gp.getPersona(cedula);
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			Error error = new Error(
-					500,
-					"Error interno",
-					e.getMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build()	;
-			}
-		
-		if(p== null) {
-			Error error = new Error(
-					404,
-					"No encontrado",
-					"Usuario con ID "+cedula+" no encuentrado");
-				
-			return Response.status(Response.Status.NOT_FOUND).entity(error).build();
-		}
-		
-		return Response.ok(p).build();
-	}
-	
-	@POST
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Response createPersona(User persona, @Context UriInfo uriInfo) {	
-		
-		try {
-			gp.crearPersona(persona);
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			Error error = new Error(
-					500,
-					"Error interno",
-					e.getMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(error).build()	;
-			}
-		
-		URI location = uriInfo.getAbsolutePathBuilder()
-				.path(persona.getUid())
-				.build();
-		return Response.created(location)
-				.entity(persona)
-				.build();
-	}
-	
-	@PUT
-	@Path("/{uid}")
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Response updatePersona(@PathParam("uid") String id, User persona, @Context UriInfo uriInfo) {
-		try {
-			 if(!id.equals(persona.getUid())) {
-		            Error error = new Error(
-		                    400,
-		                    "Datos incorrectos",
-		                    "La cédula no coincide con el parámetro");
-		            return Response.status(Response.Status.BAD_REQUEST)
-		                    .entity(error).build();
-		        }
-			 User p = gp.getPersona(id);
+    private GestionUsers service;
 
-		        if(p == null) {
-		            Error error = new Error(
-		                    404,
-		                    "No encontrado",
-		                    "Persona con ID " + id + " no existe");
-		            return Response.status(Response.Status.NOT_FOUND)
-		                    .entity(error).build();
-		        }
+    // ---------- USERS ----------
+    @GET
+    @Path("users")
+    public List<User> getAllUsers() {
+        return service.getAll();
+    }
 
-		        gp.actualizarPersona(persona);
+    @GET
+    @Path("users/{uid}")
+    public User getUser(@PathParam("uid") String uid) {
+        return service.getByUid(uid);
+    }
 
-		    } catch(Exception e) {
-		        e.printStackTrace();	
-		        Error error = new Error(
-		                500,
-		                "Error interno",
-		                e.getMessage());
-		        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-		                .entity(error).build();
-		    }
+    @POST
+    @Path("users")
+    public Response createUser(User user) {
+        service.create(user);
+        return Response.status(Response.Status.CREATED).entity(user).build();
+    }
 
-		    return Response.ok(persona).build();
-		
-	}
+    @PUT
+    @Path("users/{uid}")
+    public User updateUser(@PathParam("uid") String uid, User user) {
+        user.setUid(uid);
+        return service.update(user);
+    }
+
+    @DELETE
+    @Path("users/{uid}")
+    public Response deleteUser(@PathParam("uid") String uid) {
+        service.delete(uid);
+        return Response.noContent().build();
+    }
+
+    // ---------- ROLES ----------
+    @PUT
+    @Path("users/{uid}/role")
+    public Response changeRole(@PathParam("uid") String uid, RoleDTO dto) {
+        service.changeRole(uid, dto.role());
+        return Response.ok().build();
+    }
+
+    // ---------- FILTERS ----------
+    @GET
+    @Path("admins")
+    public List<User> getAdmins() {
+        return service.getAdmins();
+    }
+
+    @GET
+    @Path("programadores")
+    public List<User> getProgramadores() {
+        return service.getProgramadores();
+    }
+
+    public record RoleDTO(String role) {}
 
 }

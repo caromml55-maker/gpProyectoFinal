@@ -1,5 +1,7 @@
 package ec.edu.ups.ppw.gproyectoFinal.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -36,6 +38,7 @@ public class Portafolio {
 
 	    @ManyToOne
 	    @JoinColumn(name = "por_programador_id")
+	    @JsonIgnore
 	    private User programador;
 	    
 

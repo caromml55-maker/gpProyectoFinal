@@ -11,32 +11,43 @@ import java.util.List;
 public class GestionUsers {
 	
 	@Inject
-	private UserDAO daoUser;
+	private UserDAO dao;
 
-	public List<User> getPersona(){
-		return daoUser.getAll();
-	}
-	
-	public User getPersona(String id) throws Exception {
-		if(id == null || id.isEmpty())
-			throw new Exception("Parámetro incorrecto");
-		
-		User u = daoUser.read(id);
-		return u;
-	}
-	
-	public void crearPersona(User user) throws Exception {
-		if(user.getUid() == null || user.getUid().isEmpty())
-			throw new Exception("UID inválido");
-		
-		daoUser.insert(user);
-	}
-	
-	public void actualizarPersona(User user) throws Exception {
-	    if(user.getUid() == null || user.getUid().isEmpty())
-	        throw new Exception("UID inválido");
+	public List<User> getAll() {
+        return dao.findAll();
+    }
 
-	    daoUser.update(user);
-	}
+    public User getByUid(String uid) {
+        return dao.findByUid(uid);
+    }
+
+    public List<User> getAdmins() {
+        return dao.findByRole("ADMIN");
+    }
+
+    public List<User> getProgramadores() {
+        return dao.findByRole("USER");
+    }
+
+    public User create(User user) {
+        dao.insert(user);
+        return user;
+    }
+
+    public User update(User user) {
+        return dao.update(user);
+    }
+
+    public void changeRole(String uid, String role) {
+        User u = dao.findByUid(uid);
+        if (u != null) {
+            u.setRole(role);
+            dao.update(u);
+        }
+    }
+
+    public void delete(String uid) {
+        dao.delete(uid);
+    }
 
 }

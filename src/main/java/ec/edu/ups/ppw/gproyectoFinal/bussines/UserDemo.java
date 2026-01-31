@@ -19,7 +19,7 @@ public class UserDemo {
 	@PostConstruct
 	public void init() {
 
-		 User u1 = new User();
+		/* User u1 = new User();
 			u1.setUid("U001");
 			u1.setDisplayName("Juan Perez");
 			u1.setEmail("juan@ups.edu.ec");
@@ -67,7 +67,7 @@ public class UserDemo {
 				System.out.println("Email: " + u.getEmail());
 				System.out.println("Rol: " + u.getRole());
 				System.out.println("---------------------");
-			}
+			}*/
 	    }
 
 }

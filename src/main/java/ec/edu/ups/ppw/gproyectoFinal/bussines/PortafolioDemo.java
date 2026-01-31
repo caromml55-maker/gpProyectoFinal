@@ -19,7 +19,7 @@ public class PortafolioDemo {
     @PostConstruct
     public void init() {
 
-    	Portafolio p1 = new Portafolio();
+    	/*Portafolio p1 = new Portafolio();
 		p1.setId("P001");
 		p1.setNombre("Sistema de ventas");
 		p1.setDescripcion("Proyecto académico");
@@ -56,7 +56,7 @@ public class PortafolioDemo {
 		dao.insert(p2);
 		dao.insert(p3);
 
-		listarPortafolios();
+		listarPortafolios();*/
 	}
 
 	public void listarPortafolios() {

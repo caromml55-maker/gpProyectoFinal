@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "Usuario")
@@ -30,53 +31,88 @@ public class User {
 	    private String createdAt;
 	    
 	    @OneToMany(mappedBy = "usuario")
+	    @JsonIgnore
 	    private List<Notification> notifications;
 
 	    @OneToMany(mappedBy = "programador")
+	    @JsonIgnore
 	    private List<Portafolio> portafolios;
 	    
+	    @OneToMany(mappedBy = "programador")
+	    @JsonIgnore
+	    private List<Horario> horarios;
 
-	    // GETTERS & SETTERS
+	    //Getter y setter
+	    
+		public String getUid() {
+			return uid;
+		}
 
-	    public String getUid() {
-	        return uid;
-	    }
-	    public void setUid(String uid) {
-	        this.uid = uid;
-	    }
+		public void setUid(String uid) {
+			this.uid = uid;
+		}
 
-	    public String getDisplayName() {
-	        return displayName;
-	    }
-	    public void setDisplayName(String displayName) {
-	        this.displayName = displayName;
-	    }
+		public String getDisplayName() {
+			return displayName;
+		}
 
-	    public String getEmail() {
-	        return email;
-	    }
-	    public void setEmail(String email) {
-	        this.email = email;
-	    }
+		public void setDisplayName(String displayName) {
+			this.displayName = displayName;
+		}
 
-	    public String getPhotoURL() {
-	        return photoURL;
-	    }
-	    public void setPhotoURL(String photoURL) {
-	        this.photoURL = photoURL;
-	    }
+		public String getEmail() {
+			return email;
+		}
 
-	    public String getRole() {
-	        return role;
-	    }
-	    public void setRole(String role) {
-	        this.role = role;
-	    }
+		public void setEmail(String email) {
+			this.email = email;
+		}
 
-	    public String getCreatedAt() {
-	        return createdAt;
-	    }
-	    public void setCreatedAt(String createdAt) {
-	        this.createdAt = createdAt;
-	    }
+		public String getPhotoURL() {
+			return photoURL;
+		}
+
+		public void setPhotoURL(String photoURL) {
+			this.photoURL = photoURL;
+		}
+
+		public String getRole() {
+			return role;
+		}
+
+		public void setRole(String role) {
+			this.role = role;
+		}
+
+		public String getCreatedAt() {
+			return createdAt;
+		}
+
+		public void setCreatedAt(String createdAt) {
+			this.createdAt = createdAt;
+		}
+
+		public List<Notification> getNotifications() {
+			return notifications;
+		}
+
+		public void setNotifications(List<Notification> notifications) {
+			this.notifications = notifications;
+		}
+
+		public List<Portafolio> getPortafolios() {
+			return portafolios;
+		}
+
+		public void setPortafolios(List<Portafolio> portafolios) {
+			this.portafolios = portafolios;
+		}
+
+		public List<Horario> getHorarios() {
+			return horarios;
+		}
+
+		public void setHorarios(List<Horario> horarios) {
+			this.horarios = horarios;
+		}	    
 }
