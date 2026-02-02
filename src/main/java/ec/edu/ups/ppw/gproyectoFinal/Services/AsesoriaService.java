@@ -61,7 +61,7 @@ public class AsesoriaService {
 		
 		return Response.ok(a).build();
 	}
-	
+	/*
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
@@ -87,7 +87,7 @@ public class AsesoriaService {
 		return Response.created(location)
 				.entity(asesoria)
 				.build();
-	}
+	}*/
 	
 	@PUT
 	@Path("/{id}")

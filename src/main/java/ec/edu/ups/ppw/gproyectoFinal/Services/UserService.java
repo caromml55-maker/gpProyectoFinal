@@ -16,69 +16,55 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Response;
 
 
-@Path("/")
+@Path("/users")
 @Consumes("application/json")
 @Produces("application/json")
 public class UserService {
 	
 	@Inject
-    private GestionUsers service;
+    private GestionUsers gestionUsers;
+	 @GET
+	    @Path("/programadores")
+	    public List<User> getProgramadores() {
+	        return gestionUsers.listarProgramadores();
+	    }
 
-    // ---------- USERS ----------
-    @GET
-    @Path("users")
-    public List<User> getAllUsers() {
-        return service.getAll();
-    }
+	    @GET
+	    @Path("/admins")
+	    public List<User> getAdmins() {
+	        return gestionUsers.listarAdmins();
+	    }
 
-    @GET
-    @Path("users/{uid}")
-    public User getUser(@PathParam("uid") String uid) {
-        return service.getByUid(uid);
-    }
+	    @GET
+	    @Path("/usuarios")
+	    public List<User> getUsuarios() {
+	        return gestionUsers.listarUsuarios();
+	    }
 
-    @POST
-    @Path("users")
-    public Response createUser(User user) {
-        service.create(user);
-        return Response.status(Response.Status.CREATED).entity(user).build();
-    }
+	    @GET
+	    @Path("/{uid}")
+	    public User getUsuario(@PathParam("uid") String uid) {
+	        return gestionUsers.obtenerUsuario(uid);
+	    }
 
-    @PUT
-    @Path("users/{uid}")
-    public User updateUser(@PathParam("uid") String uid, User user) {
-        user.setUid(uid);
-        return service.update(user);
-    }
+	    @POST
+	    public Response crearUsuario(User u) {
+	        gestionUsers.crearUsuario(u);
+	        return Response.status(Response.Status.CREATED).build();
+	    }
 
-    @DELETE
-    @Path("users/{uid}")
-    public Response deleteUser(@PathParam("uid") String uid) {
-        service.delete(uid);
-        return Response.noContent().build();
-    }
+	    @PUT
+	    @Path("/{uid}")
+	    public Response actualizarUsuario(@PathParam("uid") String uid, User u) {
+	        u.setUid(uid);
+	        gestionUsers.actualizarUsuario(u);
+	        return Response.ok().build();
+	    }
 
-    // ---------- ROLES ----------
-    @PUT
-    @Path("users/{uid}/role")
-    public Response changeRole(@PathParam("uid") String uid, RoleDTO dto) {
-        service.changeRole(uid, dto.role());
-        return Response.ok().build();
-    }
-
-    // ---------- FILTERS ----------
-    @GET
-    @Path("admins")
-    public List<User> getAdmins() {
-        return service.getAdmins();
-    }
-
-    @GET
-    @Path("programadores")
-    public List<User> getProgramadores() {
-        return service.getProgramadores();
-    }
-
-    public record RoleDTO(String role) {}
-
+	    @DELETE
+	    @Path("/{uid}")
+	    public Response eliminarUsuario(@PathParam("uid") String uid) {
+	        gestionUsers.eliminarUsuario(uid);
+	        return Response.noContent().build();
+	    }
 }

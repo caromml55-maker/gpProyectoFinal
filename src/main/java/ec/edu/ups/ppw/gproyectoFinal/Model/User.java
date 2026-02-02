@@ -1,49 +1,71 @@
 package ec.edu.ups.ppw.gproyectoFinal.Model;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "Usuario")
+@Table(name = "usuario")
 public class User {
+
+   
 	 @Id
-	    @Column(name = "usr_uid")
+	    @Column(name = "uid")
 	    private String uid;
 
-	    @Column(name = "usr_display_name")
 	    private String displayName;
 
-	    @Column(name = "usr_email")
+	    @Column(name = "email")
 	    private String email;
 
-	    @Column(name = "usr_photo_url")
-	    private String photoURL;
+	    @Column(name = "especialidad")
+	    private String especialidad;
 
-	    @Column(name = "usr_role")
+	    @Column(name = "role")
 	    private String role;
 
-	    @Column(name = "usr_created_at")
-	    private String createdAt;
-	    
-	    @OneToMany(mappedBy = "usuario")
-	    @JsonIgnore
-	    private List<Notification> notifications;
+	    private String photoURL;
 
-	    @OneToMany(mappedBy = "programador")
+	    @Column(name = "descripcion")
+	    private String descripcion;
+
+	    @Column(name = "telefono")
+	    private String telefono;
+
+	    @Column(name = "github")
+	    private String github;
+
+	    @Column(name = "linkedin")
+	    private String linkedin;
+
+	    // RELACIONES
+	    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	    @JsonIgnore
 	    private List<Portafolio> portafolios;
-	    
-	    @OneToMany(mappedBy = "programador")
+
+	    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	    @JsonIgnore
+	    private List<Asesoria> asesoriasSolicitadas;
+
+	    @OneToMany(mappedBy = "programador", cascade = CascadeType.ALL)
+	    @JsonIgnore
+	    private List<Asesoria> asesoriasRecibidas;
+
+	    @OneToMany(mappedBy = "programador", cascade = CascadeType.ALL)
 	    @JsonIgnore
 	    private List<Horario> horarios;
 
-	    //Getter y setter
-	    
+	    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	    @JsonIgnore
+	    private List<Notification> notifications;
+
 		public String getUid() {
 			return uid;
 		}
@@ -68,12 +90,12 @@ public class User {
 			this.email = email;
 		}
 
-		public String getPhotoURL() {
-			return photoURL;
+		public String getEspecialidad() {
+			return especialidad;
 		}
 
-		public void setPhotoURL(String photoURL) {
-			this.photoURL = photoURL;
+		public void setEspecialidad(String especialidad) {
+			this.especialidad = especialidad;
 		}
 
 		public String getRole() {
@@ -84,20 +106,44 @@ public class User {
 			this.role = role;
 		}
 
-		public String getCreatedAt() {
-			return createdAt;
+		public String getPhotoURL() {
+			return photoURL;
 		}
 
-		public void setCreatedAt(String createdAt) {
-			this.createdAt = createdAt;
+		public void setPhotoURL(String photoURL) {
+			this.photoURL = photoURL;
 		}
 
-		public List<Notification> getNotifications() {
-			return notifications;
+		public String getDescripcion() {
+			return descripcion;
 		}
 
-		public void setNotifications(List<Notification> notifications) {
-			this.notifications = notifications;
+		public void setDescripcion(String descripcion) {
+			this.descripcion = descripcion;
+		}
+
+		public String getTelefono() {
+			return telefono;
+		}
+
+		public void setTelefono(String telefono) {
+			this.telefono = telefono;
+		}
+
+		public String getGithub() {
+			return github;
+		}
+
+		public void setGithub(String github) {
+			this.github = github;
+		}
+
+		public String getLinkedin() {
+			return linkedin;
+		}
+
+		public void setLinkedin(String linkedin) {
+			this.linkedin = linkedin;
 		}
 
 		public List<Portafolio> getPortafolios() {
@@ -108,11 +154,35 @@ public class User {
 			this.portafolios = portafolios;
 		}
 
+		public List<Asesoria> getAsesoriasSolicitadas() {
+			return asesoriasSolicitadas;
+		}
+
+		public void setAsesoriasSolicitadas(List<Asesoria> asesoriasSolicitadas) {
+			this.asesoriasSolicitadas = asesoriasSolicitadas;
+		}
+
+		public List<Asesoria> getAsesoriasRecibidas() {
+			return asesoriasRecibidas;
+		}
+
+		public void setAsesoriasRecibidas(List<Asesoria> asesoriasRecibidas) {
+			this.asesoriasRecibidas = asesoriasRecibidas;
+		}
+
 		public List<Horario> getHorarios() {
 			return horarios;
 		}
 
 		public void setHorarios(List<Horario> horarios) {
 			this.horarios = horarios;
-		}	    
+		}
+
+		public List<Notification> getNotifications() {
+			return notifications;
+		}
+
+		public void setNotifications(List<Notification> notifications) {
+			this.notifications = notifications;
+		}
 }

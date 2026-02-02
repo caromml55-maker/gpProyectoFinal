@@ -41,7 +41,7 @@ public class HorarioDemo {
 		dao.insert(h2);
 		dao.insert(h3);
 
-		listarHorarios();*/
+		listarHorarios();
 	}
 
 	public void listarHorarios() {
@@ -52,6 +52,6 @@ public class HorarioDemo {
 			System.out.println("Inicio: " + h.getInicio());
 			System.out.println("Fin: " + h.getFin());
 			System.out.println("---------------------");
-		}
+		}*/
 	}
 }

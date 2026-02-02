@@ -4,6 +4,7 @@ import ec.edu.ups.ppw.gproyectoFinal.Model.Horario;
 import ec.edu.ups.ppw.gproyectoFinal.bussines.GestionHorarios;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -21,92 +22,51 @@ import java.net.URI;
 public class HorarioService {
 
 	@Inject
-	private GestionHorarios gh;
-	
-	@GET
-	@Produces("application/json")
-	public Response getListaHorarios(){
-		List<Horario> listado = gh.getHorarios();
-		return Response.ok(listado).build();
-	}
+    private GestionHorarios gestionHorario;
 
-	@GET
-	@Path("/{id}")
-	@Produces("application/json")
-	public Response getHorario(@PathParam("id") String id) {
+    @GET
+    public List<Horario> getAllHorarios() {
+        return gestionHorario.getAll();
+    }
 
-		Horario h;
-		try {
-			h = gh.getHorario(id);
-		} catch(Exception e) {
-			Error error = new Error(500,"Error interno",e.getMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(error).build();
-		}
+    @GET
+    @Path("/{id}")
+    public Horario getHorario(@PathParam("id") Long id) {
+        return gestionHorario.getById(id);
+    }
 
-		if(h == null) {
-			Error error = new Error(404,"No encontrado",
-					"Horario con ID "+id+" no existe");
-			return Response.status(Response.Status.NOT_FOUND)
-					.entity(error).build();
-		}
+    @GET
+    @Path("/programador/{uid}")
+    public List<Horario> getHorariosByProgramador(@PathParam("uid") String uid) {
+        return gestionHorario.getByProgramador(uid);
+    }
 
-		return Response.ok(h).build();
-	}
+    @POST
+    public Response createHorario(Horario horario) {
+        gestionHorario.create(horario);
+        return Response.status(Response.Status.CREATED).entity(horario).build();
+    }
 
-	@POST
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Response createHorario(Horario horario,
-			@Context UriInfo uriInfo) {
+    @PUT
+    @Path("/{id}")
+    public Response updateHorario(@PathParam("id") Long id, Horario horario) {
+        Horario existing = gestionHorario.getById(id);
+        if (existing == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        horario.setId(id);
+        gestionHorario.update(horario);
+        return Response.ok(horario).build();
+    }
 
-		try {
-			gh.crearHorario(horario);
-		} catch(Exception e) {
-			Error error = new Error(500,"Error interno",e.getMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(error).build();
-		}
-
-		URI location = uriInfo.getAbsolutePathBuilder()
-				.path(horario.getId()).build();
-
-		return Response.created(location)
-				.entity(horario).build();
-	}
-
-	@PUT
-	@Path("/{id}")
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Response updateHorario(@PathParam("id") String id,Horario horario) {
-
-		try {
-
-			if(!id.equals(horario.getId())) {
-				Error error = new Error(400,"Datos incorrectos",
-						"El ID no coincide");
-				return Response.status(Response.Status.BAD_REQUEST)
-						.entity(error).build();
-			}
-
-			Horario h = gh.getHorario(id);
-
-			if(h == null) {
-				Error error = new Error(404,"No encontrado",
-						"Horario con ID "+id+" no existe");
-				return Response.status(Response.Status.NOT_FOUND)
-						.entity(error).build();
-			}
-
-			gh.actualizarHorario(horario);
-
-		} catch(Exception e) {
-			Error error = new Error(500,"Error interno",e.getMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(error).build();
-		}
-
-		return Response.ok(horario).build();
-	}
+    @DELETE
+    @Path("/{id}")
+    public Response deleteHorario(@PathParam("id") Long id) {
+        Horario existing = gestionHorario.getById(id);
+        if (existing == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        gestionHorario.delete(existing);
+        return Response.noContent().build();
+    }
 }

@@ -56,7 +56,7 @@ public class PortafolioDemo {
 		dao.insert(p2);
 		dao.insert(p3);
 
-		listarPortafolios();*/
+		listarPortafolios();
 	}
 
 	public void listarPortafolios() {
@@ -69,7 +69,7 @@ public class PortafolioDemo {
 			System.out.println("Participación: " + p.getTipoParticipacion());
 			System.out.println("Repositorio: " + p.getUrlRepositorio());
 			System.out.println("---------------------");
-		}
+		}*/
 	}
 
 }

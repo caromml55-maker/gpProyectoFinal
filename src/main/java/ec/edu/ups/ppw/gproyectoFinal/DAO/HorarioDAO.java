@@ -7,6 +7,7 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 
 @Stateless
 public class HorarioDAO {
@@ -14,26 +15,32 @@ public class HorarioDAO {
     @PersistenceContext
     private EntityManager em;
 
-    public void insert(Horario horario) {
-		em.persist(horario);
-	}
-	
-	public void update(Horario horario) {
-		em.merge(horario);
-	}
-	
-	public Horario read(String pk) {
-		return em.find(Horario.class, pk);
-	}
-
-	public void delete(String pk) {
-		Horario horario = em.find(Horario.class, pk);
-		em.remove(horario);
+    public Horario findById(Long id) {
+        return em.find(Horario.class, id);
     }
 
-    public List<Horario> getAll() {
-        String jpql = "SELECT h FROM Horario h";
-        TypedQuery<Horario> q = em.createQuery(jpql, Horario.class);
-        return q.getResultList();
+    public List<Horario> findAll() {
+        return em.createQuery("SELECT h FROM Horario h", Horario.class).getResultList();
+    }
+
+    @Transactional
+    public void create(Horario horario) {
+        em.persist(horario);
+    }
+
+    @Transactional
+    public void update(Horario horario) {
+        em.merge(horario);
+    }
+
+    @Transactional
+    public void delete(Horario horario) {
+        em.remove(em.contains(horario) ? horario : em.merge(horario));
+    }
+
+    public List<Horario> findByProgramadorUid(String uid) {
+        return em.createQuery("SELECT h FROM Horario h WHERE h.programador.uid = :uid", Horario.class)
+                 .setParameter("uid", uid)
+                 .getResultList();
     }
 }

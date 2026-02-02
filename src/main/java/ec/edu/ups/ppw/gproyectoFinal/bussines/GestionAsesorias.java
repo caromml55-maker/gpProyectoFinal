@@ -25,14 +25,14 @@ public class GestionAsesorias {
 	}
 	
 	public void crearAsesoria(Asesoria asesoria) throws Exception {
-		if(asesoria.getId() == null || asesoria.getId().isEmpty())
+		if(asesoria.getId() == null )
 			throw new Exception("ID inválido");
 		
 		dao.insert(asesoria);
 	}
 	
 	public void actualizarAsesoria(Asesoria asesoria) throws Exception {
-		if(asesoria.getId() == null || asesoria.getId() .isEmpty())
+		if(asesoria.getId() == null)
 			throw new Exception("ID inválido");
 		
 		dao.update(asesoria);

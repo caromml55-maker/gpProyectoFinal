@@ -54,7 +54,7 @@ public class NotificationService {
 		return Response.ok(n).build();
 	}
 
-	@POST
+	/*@POST
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response createNotification(Notification n, @Context UriInfo uriInfo) {
@@ -72,7 +72,7 @@ public class NotificationService {
 
 		return Response.created(location)
 				.entity(n).build();
-	}
+	}*/
 
 	@PUT
 	@Path("/{id}")

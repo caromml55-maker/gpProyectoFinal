@@ -10,44 +10,40 @@ import java.util.List;
 @Stateless
 public class GestionUsers {
 	
-	@Inject
-	private UserDAO dao;
+	 @Inject
+	    private UserDAO userDAO;
 
-	public List<User> getAll() {
-        return dao.findAll();
-    }
+	    public List<User> listarProgramadores() {
+	        return userDAO.getPorRole("programador");
+	    }
 
-    public User getByUid(String uid) {
-        return dao.findByUid(uid);
-    }
+	    public List<User> listarAdmins() {
+	        return userDAO.getPorRole("admin");
+	    }
 
-    public List<User> getAdmins() {
-        return dao.findByRole("ADMIN");
-    }
+	    public List<User> listarUsuarios() {
+	        return userDAO.getPorRole("user");
+	    }
 
-    public List<User> getProgramadores() {
-        return dao.findByRole("USER");
-    }
+	    public void crearUsuario(User u) {
+	        if(u.getUid() == null || u.getUid().isEmpty()) {
+	            throw new IllegalArgumentException("El UID es obligatorio");
+	        }
+	        userDAO.crear(u);
+	    }
 
-    public User create(User user) {
-        dao.insert(user);
-        return user;
-    }
+	    public void actualizarUsuario(User u) {
+	        if(userDAO.buscarPorUid(u.getUid()) == null) {
+	            throw new IllegalArgumentException("Usuario no encontrado");
+	        }
+	        userDAO.actualizar(u);
+	    }
 
-    public User update(User user) {
-        return dao.update(user);
-    }
+	    public void eliminarUsuario(String uid) {
+	        userDAO.eliminar(uid);
+	    }
 
-    public void changeRole(String uid, String role) {
-        User u = dao.findByUid(uid);
-        if (u != null) {
-            u.setRole(role);
-            dao.update(u);
-        }
-    }
-
-    public void delete(String uid) {
-        dao.delete(uid);
-    }
-
+	    public User obtenerUsuario(String uid) {
+	        return userDAO.buscarPorUid(uid);
+	    }
 }

@@ -10,32 +10,30 @@ import java.util.List;
 public class GestionHorarios {
 
 	@Inject
-	private HorarioDAO daoHorario;
-	
-	public List<Horario> getHorarios(){
-		return daoHorario.getAll();
-	}
-	
-	public Horario getHorario(String id) throws Exception {
-		if(id == null || id.isEmpty())
-			throw new Exception("Parámetro incorrecto");
-		
-		Horario h = daoHorario.read(id);
-		return h;
-	}
-	
-	public void crearHorario(Horario horario) throws Exception {
-		if(horario.getId() == null || horario.getId().isEmpty())
-			throw new Exception("ID inválido");
-		
-		daoHorario.insert(horario);
-	}
-	
-	public void actualizarHorario(Horario horario) throws Exception {
-	    if(horario.getId() == null || horario.getId().isEmpty())
-	        throw new Exception("ID inválido");
+    private HorarioDAO horarioDAO;
 
-	    daoHorario.update(horario);
-	}
+    public Horario getById(Long id) {
+        return horarioDAO.findById(id);
+    }
+
+    public List<Horario> getAll() {
+        return horarioDAO.findAll();
+    }
+
+    public List<Horario> getByProgramador(String uid) {
+        return horarioDAO.findByProgramadorUid(uid);
+    }
+
+    public void create(Horario horario) {
+        horarioDAO.create(horario);
+    }
+
+    public void update(Horario horario) {
+        horarioDAO.update(horario);
+    }
+
+    public void delete(Horario horario) {
+        horarioDAO.delete(horario);
+    }
 	
 }
