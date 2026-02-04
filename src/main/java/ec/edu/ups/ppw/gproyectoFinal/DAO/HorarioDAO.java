@@ -34,8 +34,11 @@ public class HorarioDAO {
     }
 
     @Transactional
-    public void delete(Horario horario) {
-        em.remove(em.contains(horario) ? horario : em.merge(horario));
+    public void delete(Long id) {
+        String jpql = "DELETE FROM Horario h WHERE h.id = :id";
+        int eliminados = em.createQuery(jpql)
+                           .setParameter("id", id)
+                           .executeUpdate();
     }
 
     public List<Horario> findByProgramadorUid(String uid) {

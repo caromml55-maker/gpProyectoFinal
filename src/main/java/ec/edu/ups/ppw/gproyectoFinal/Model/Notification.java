@@ -1,8 +1,5 @@
 package ec.edu.ups.ppw.gproyectoFinal.Model;
 
-import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 
@@ -14,14 +11,14 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario")
-    @JsonIgnore
+	@ManyToOne
+    @JoinColumn(name = "usuario", referencedColumnName = "uid")
     private User usuario;
 
     private String mensaje;
-    private LocalDateTime fechaHora;
+    private String fechaHora;
     private boolean leido;
+    
 	public Long getId() {
 		return id;
 	}
@@ -40,10 +37,11 @@ public class Notification {
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
 	}
-	public LocalDateTime getFechaHora() {
+	
+	public String getFechaHora() {
 		return fechaHora;
 	}
-	public void setFechaHora(LocalDateTime fechaHora) {
+	public void setFechaHora(String fechaHora) {
 		this.fechaHora = fechaHora;
 	}
 	public boolean isLeido() {

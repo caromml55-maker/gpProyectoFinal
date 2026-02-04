@@ -1,9 +1,6 @@
 package ec.edu.ups.ppw.gproyectoFinal.Model;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 
 @Entity
@@ -14,17 +11,16 @@ public class Asesoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario")
-    @JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "usuario", referencedColumnName = "uid")
     private User usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "programador")
-    @JsonIgnore
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "programador_uid", referencedColumnName = "uid")
+	@JsonIgnore
     private User programador;
 
-    private LocalDateTime fechaHora;
+    private String fechaHora;
     private String comentario;
     private String estado;
     private String respuesta;
@@ -46,10 +42,11 @@ public class Asesoria {
 	public void setProgramador(User programador) {
 		this.programador = programador;
 	}
-	public LocalDateTime getFechaHora() {
+	
+	public String getFechaHora() {
 		return fechaHora;
 	}
-	public void setFechaHora(LocalDateTime fechaHora) {
+	public void setFechaHora(String fechaHora) {
 		this.fechaHora = fechaHora;
 	}
 	public String getComentario() {

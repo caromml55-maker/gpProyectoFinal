@@ -37,5 +37,8 @@ public class GestionNotification {
 
 	    daoNotification.update(notification);
 	}
+	public List<Notification> getNotificacionesPorUsuario(String uid) {
+	    return daoNotification.getPorUsuario(uid);
+	}
 
 }

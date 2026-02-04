@@ -1,6 +1,7 @@
 package ec.edu.ups.ppw.gproyectoFinal.Services;
 
 import ec.edu.ups.ppw.gproyectoFinal.Model.Horario;
+import ec.edu.ups.ppw.gproyectoFinal.Model.HorarioDTO;
 import ec.edu.ups.ppw.gproyectoFinal.bussines.GestionHorarios;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -37,12 +38,20 @@ public class HorarioService {
 
     @GET
     @Path("/programador/{uid}")
+    @Produces("application/json")
     public List<Horario> getHorariosByProgramador(@PathParam("uid") String uid) {
-        return gestionHorario.getByProgramador(uid);
+    	return gestionHorario.getHorariosDisponibles(uid);
+    }
+    
+    @GET
+    @Path("/programador/{uidProg}/visto-por/{uidUser}")
+    @Produces("application/json")
+    public List<HorarioDTO> getHorariosVistosPorUsuario(@PathParam("uidProg") String uidProg, @PathParam("uidUser") String uidUser) {
+        return gestionHorario.getHorariosConEstado(uidProg, uidUser);
     }
 
     @POST
-    public Response createHorario(Horario horario) {
+    public Response createHorario(Horario horario) throws Exception {
         gestionHorario.create(horario);
         return Response.status(Response.Status.CREATED).entity(horario).build();
     }
@@ -62,11 +71,13 @@ public class HorarioService {
     @DELETE
     @Path("/{id}")
     public Response deleteHorario(@PathParam("id") Long id) {
-        Horario existing = gestionHorario.getById(id);
-        if (existing == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+    	try {
+            gestionHorario.delete(id);
+            
+            return Response.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(500).entity("Error al eliminar: " + e.getMessage()).build();
         }
-        gestionHorario.delete(existing);
-        return Response.noContent().build();
     }
 }

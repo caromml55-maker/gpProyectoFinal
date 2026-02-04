@@ -1,10 +1,6 @@
 package ec.edu.ups.ppw.gproyectoFinal.Model;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +16,6 @@ public class Horario {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonIgnore
     private Long id;
 
     @ManyToOne
@@ -30,10 +25,11 @@ public class Horario {
 
     @Transient
     private String programadorUid;
-    private LocalDate fecha;
-    private LocalTime inicio;
-    private LocalTime fin;
     
+    private String fecha;   
+    private String inicio;  
+    private String fin;     
+    private String modalidad;
     
     
 	public String getProgramadorUid() {
@@ -54,22 +50,28 @@ public class Horario {
 	public void setProgramador(User programador) {
 		this.programador = programador;
 	}
-	public LocalDate getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
-	public void setFecha(LocalDate fecha) {
+	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
-	public LocalTime getInicio() {
+	public String getInicio() {
 		return inicio;
 	}
-	public void setInicio(LocalTime inicio) {
+	public void setInicio(String inicio) {
 		this.inicio = inicio;
 	}
-	public LocalTime getFin() {
+	public String getFin() {
 		return fin;
 	}
-	public void setFin(LocalTime fin) {
+	public void setFin(String fin) {
 		this.fin = fin;
+	}
+	public String getModalidad() {
+		return modalidad;
+	}
+	public void setModalidad(String modalidad) {
+		this.modalidad = modalidad;
 	}
 }
