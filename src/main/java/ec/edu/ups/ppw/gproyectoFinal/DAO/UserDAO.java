@@ -9,29 +9,42 @@ import jakarta.persistence.*;
 public class UserDAO {
 	
 	@PersistenceContext
-	private EntityManager em;
-	
-	public void insert(User persona) {
-		em.persist(persona);
-	}
-	
-	public void update(User persona) {
-		em.merge(persona);
-	}
-	
-	public User read(String pk) {
-		return em.find(User.class, pk);
-	}
-	
-	public void delete(String pk) {
-		User persona = em.find(User.class, pk);
-		em.remove(persona);
-	}
-	
-	public List<User> getAll(){
-		String jpql = "SELECT u FROM User u";
-		TypedQuery<User> q = em.createQuery(jpql,User.class);
-		return q.getResultList();
-	}
+    private EntityManager em;
 
+	public void crear(User u) {
+        em.persist(u);
+    }
+
+    public void actualizar(User u) {
+        em.merge(u);
+    }
+
+    public void eliminar(String uid) {
+        User u = em.find(User.class, uid);
+        if (u != null) em.remove(u);
+    }
+
+    public User buscarPorUid(String uid) {
+        return em.find(User.class, uid);
+    }
+
+    public List<User> getTodos() {
+        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+    }
+
+    public List<User> getPorRole(String role) {
+        TypedQuery<User> q = em.createQuery("SELECT u FROM User u WHERE u.role = :role", User.class);
+        q.setParameter("role", role);
+        return q.getResultList();
+    }
+    
+    public User buscarPorEmail(String email) {
+        try {
+            TypedQuery<User> q = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class);
+            q.setParameter("email", email);
+            return q.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

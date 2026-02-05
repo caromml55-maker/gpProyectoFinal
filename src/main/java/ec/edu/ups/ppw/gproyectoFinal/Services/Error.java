@@ -10,7 +10,6 @@ public class Error {
 	
 	
 	public Error(int codigo, String name, String description) {
-		super();
 		this.codigo = codigo;
 		this.name = name;
 		this.description = description;

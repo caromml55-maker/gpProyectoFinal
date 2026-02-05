@@ -19,7 +19,7 @@ public class NotificationDemo {
 	@PostConstruct
 	public void init() {
 
-		Notification n1 = new Notification();
+		/*Notification n1 = new Notification();
 		n1.setId("N001");
 		n1.setFechaHora("2026-01-10T10:00");
 		n1.setMensaje("Tu asesoría fue aceptada");
@@ -41,7 +41,7 @@ public class NotificationDemo {
 		dao.insert(n2);
 		dao.insert(n3);
 
-		listarNotifications();
+		listarNotifications();*/
 	}
 
 	public void listarNotifications() {

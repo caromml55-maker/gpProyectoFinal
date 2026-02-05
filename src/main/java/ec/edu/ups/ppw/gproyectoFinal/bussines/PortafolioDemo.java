@@ -19,7 +19,7 @@ public class PortafolioDemo {
     @PostConstruct
     public void init() {
 
-    	Portafolio p1 = new Portafolio();
+    	/*Portafolio p1 = new Portafolio();
 		p1.setId("P001");
 		p1.setNombre("Sistema de ventas");
 		p1.setDescripcion("Proyecto académico");
@@ -69,7 +69,7 @@ public class PortafolioDemo {
 			System.out.println("Participación: " + p.getTipoParticipacion());
 			System.out.println("Repositorio: " + p.getUrlRepositorio());
 			System.out.println("---------------------");
-		}
+		}*/
 	}
 
 }

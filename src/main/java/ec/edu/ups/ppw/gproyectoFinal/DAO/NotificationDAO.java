@@ -36,4 +36,12 @@ public class NotificationDAO {
 		TypedQuery<Notification> q = em.createQuery(jpql, Notification.class);
 		return q.getResultList();
 	}
+	
+	public List<Notification> getPorUsuario(String uid) {
+	    String jpql = "SELECT n FROM Notification n WHERE n.usuario.uid = :uid ORDER BY n.id DESC";
+	    return em.createQuery(jpql, Notification.class)
+	             .setParameter("uid", uid)
+	             .getResultList();
+	}
+	
 }

@@ -1,44 +1,53 @@
 package ec.edu.ups.ppw.gproyectoFinal.Model;
 
+
 import jakarta.persistence.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 
 @Entity
+@Table(name = "notification")
 public class Notification {
 
 	@Id
-    @Column(name = "not_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(name = "not_fecha_hora")
-    private String fechaHora;
-
-    @Column(name = "not_leido")
-    private boolean leido;
-
-    @Column(name = "not_mensaje")
-    private String mensaje;
-
-
-    @ManyToOne
-    @JoinColumn(name = "not_usuario_id")
+	@ManyToOne
+    @JoinColumn(name = "usuario", referencedColumnName = "uid")
     private User usuario;
 
-    // GETTERS & SETTERS
-
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
-    public String getFechaHora() { return fechaHora; }
-    public void setFechaHora(String fechaHora) { this.fechaHora = fechaHora; }
-
-    public boolean isLeido() { return leido; }
-    public void setLeido(boolean leido) { this.leido = leido; }
-
-    public String getMensaje() { return mensaje; }
-    public void setMensaje(String mensaje) { this.mensaje = mensaje; }
-
-    public User getUsuario() { return usuario; }
-    public void setUsuario(User usuario) { this.usuario = usuario; }
+    private String mensaje;
+    private String fechaHora;
+    private boolean leido;
+    
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public User getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(User usuario) {
+		this.usuario = usuario;
+	}
+	public String getMensaje() {
+		return mensaje;
+	}
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+	
+	public String getFechaHora() {
+		return fechaHora;
+	}
+	public void setFechaHora(String fechaHora) {
+		this.fechaHora = fechaHora;
+	}
+	public boolean isLeido() {
+		return leido;
+	}
+	public void setLeido(boolean leido) {
+		this.leido = leido;
+	}
 }

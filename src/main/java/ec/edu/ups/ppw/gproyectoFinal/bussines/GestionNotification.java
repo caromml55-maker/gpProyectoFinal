@@ -25,17 +25,20 @@ public class GestionNotification {
 	}
 	
 	public void crearNotification(Notification notification) throws Exception {
-		if(notification.getId() == null || notification.getId().isEmpty())
+		if(notification.getId() == null )
 			throw new Exception("ID inválido");
 		
 		daoNotification.insert(notification);
 	}
 	
 	public void actualizarNotification(Notification notification) throws Exception {
-	    if(notification.getId() == null || notification.getId().isEmpty())
+	    if(notification.getId() == null )
 	        throw new Exception("ID inválido");
 
 	    daoNotification.update(notification);
+	}
+	public List<Notification> getNotificacionesPorUsuario(String uid) {
+	    return daoNotification.getPorUsuario(uid);
 	}
 
 }

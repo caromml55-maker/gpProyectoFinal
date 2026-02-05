@@ -19,7 +19,7 @@ public class HorarioDemo {
 	@PostConstruct
 	public void init() {
 
-		Horario h1 = new Horario();
+		/*Horario h1 = new Horario();
 		h1.setId("H001");
 		h1.setFecha("2026-01-15");
 		h1.setInicio("08:00");
@@ -52,6 +52,6 @@ public class HorarioDemo {
 			System.out.println("Inicio: " + h.getInicio());
 			System.out.println("Fin: " + h.getFin());
 			System.out.println("---------------------");
-		}
+		}*/
 	}
 }

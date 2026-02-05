@@ -34,4 +34,15 @@ public class PortafolioDAO {
 		TypedQuery<Portafolio> q = em.createQuery(jpql, Portafolio.class);
 		return q.getResultList();
 	}
+	
+	public Portafolio findByUsuarioUid(String uid) {
+	    try {
+	        String jpql = "SELECT p FROM Portafolio p WHERE p.usuario = :uid";
+	        return em.createQuery(jpql, Portafolio.class)
+	                 .setParameter("uid", uid)
+	                 .getSingleResult();
+	    } catch (NoResultException e) {
+	        return null;
+	    }
+	}
 }

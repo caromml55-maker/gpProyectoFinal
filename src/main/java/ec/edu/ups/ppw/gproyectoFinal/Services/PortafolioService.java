@@ -3,12 +3,13 @@ package ec.edu.ups.ppw.gproyectoFinal.Services;
 import java.net.URI;
 import java.util.List;
 import ec.edu.ups.ppw.gproyectoFinal.Model.Portafolio;
+import ec.edu.ups.ppw.gproyectoFinal.Model.Proyecto;
 import ec.edu.ups.ppw.gproyectoFinal.bussines.GestionPortafolio;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
 
-@Path("portafolio")
+@Path("users/portafolio")
 public class PortafolioService {
 
 	@Inject
@@ -22,48 +23,24 @@ public class PortafolioService {
 	}
 
 	@GET
-	@Path("/{id}")
+	@Path("/{uid}")
 	@Produces("application/json")
-	public Response getPortafolio(@PathParam("id") String id) {
-
-		Portafolio p;
-		try {
-			p = gp.getPortafolio(id);
-		} catch(Exception e) {
-			Error error = new Error(500,"Error interno",e.getMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(error).build();
-		}
-
-		if(p == null) {
-			Error error = new Error(404,"No encontrado",
-					"Portafolio con ID "+id+" no existe");
-			return Response.status(Response.Status.NOT_FOUND)
-					.entity(error).build();
-		}
-
-		return Response.ok(p).build();
+	public Response getPortafolioByUid(@PathParam("uid") String uid) {
+	    Portafolio p = gp.getPortafolioByUid(uid); // Llama al nuevo método del DAO
+	    if (p == null) return Response.status(Response.Status.NOT_FOUND).build();
+	    return Response.ok(p).build();
 	}
 
 	@POST
+	@Path("/{uid}/proyecto")
 	@Consumes("application/json")
-	@Produces("application/json")
-	public Response createPortafolio(Portafolio p,
-			@Context UriInfo uriInfo) {
-
-		try {
-			gp.crearPortafolio(p);
-		} catch(Exception e) {
-			Error error = new Error(500,"Error interno",e.getMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(error).build();
-		}
-
-		URI location = uriInfo.getAbsolutePathBuilder()
-				.path(p.getId()).build();
-
-		return Response.created(location)
-				.entity(p).build();
+	public Response addProyecto(@PathParam("uid") String uid, Proyecto proyecto) {
+	    try {
+	        gp.agregarProyecto(uid, proyecto);
+	        return Response.status(Response.Status.CREATED).build();
+	    } catch (Exception e) {
+	        return Response.status(500).entity(e.getMessage()).build();
+	    }
 	}
 
 	@PUT
@@ -100,5 +77,16 @@ public class PortafolioService {
 		}
 
 		return Response.ok(p).build();
+	}
+	
+	@DELETE
+	@Path("/proyecto/{id}")
+	public Response eliminarProyecto(@PathParam("id") Long id) {
+	    try {
+	        gp.eliminarProyecto(id);
+	        return Response.ok().build();
+	    } catch (Exception e) {
+	        return Response.status(500).entity(e.getMessage()).build();
+	    }
 	}
 }

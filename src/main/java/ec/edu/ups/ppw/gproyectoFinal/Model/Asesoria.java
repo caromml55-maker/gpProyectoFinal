@@ -1,80 +1,74 @@
 package ec.edu.ups.ppw.gproyectoFinal.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "asesoria")
 public class Asesoria {
 
-	  @Id
-	    @Column(name = "ase_id")
-	    private String id;   
-	  
-	    @Column(name = "ase_comentario")
-	    private String comentario;
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	    private String estado;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "usuario", referencedColumnName = "uid")
+    private User usuario;
 
-	    @Column(name = "ase_fecha_hora")
-	    private String fechaHora;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "programador_uid", referencedColumnName = "uid")
+	@JsonIgnore
+    private User programador;
 
-	    @Column(name = "ase_programador_id")
-	    private String programadorId;
+    private String fechaHora;
+    private String comentario;
+    private String estado;
+    private String respuesta;
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public User getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(User usuario) {
+		this.usuario = usuario;
+	}
+	public User getProgramador() {
+		return programador;
+	}
+	public void setProgramador(User programador) {
+		this.programador = programador;
+	}
+	
+	public String getFechaHora() {
+		return fechaHora;
+	}
+	public void setFechaHora(String fechaHora) {
+		this.fechaHora = fechaHora;
+	}
+	public String getComentario() {
+		return comentario;
+	}
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
+	}
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	public String getRespuesta() {
+		return respuesta;
+	}
+	public void setRespuesta(String respuesta) {
+		this.respuesta = respuesta;
+	}
 
-	    @Column(name = "ase_respuesta")
-	    private String respuesta;
+}    
 
-	    @Column(name = "ase_usuario_id")
-	    private String usuarioId;
-
-	    // GETTERS & SETTERS
-
-	    public String getId() {
-	        return id;
-	    }
-	    public void setId(String id) {
-	        this.id = id;
-	    }
-
-	    public String getComentario() {
-	        return comentario;
-	    }
-	    public void setComentario(String comentario) {
-	        this.comentario = comentario;
-	    }
-
-	    public String getEstado() {
-	        return estado;
-	    }
-	    public void setEstado(String estado) {
-	        this.estado = estado;
-	    }
-
-	    public String getFechaHora() {
-	        return fechaHora;
-	    }
-	    public void setFechaHora(String fechaHora) {
-	        this.fechaHora = fechaHora;
-	    }
-
-	    public String getProgramadorId() {
-	        return programadorId;
-	    }
-	    public void setProgramadorId(String programadorId) {
-	        this.programadorId = programadorId;
-	    }
-
-	    public String getRespuesta() {
-	        return respuesta;
-	    }
-	    public void setRespuesta(String respuesta) {
-	        this.respuesta = respuesta;
-	    }
-
-	    public String getUsuarioId() {
-	        return usuarioId;
-	    }
-	    public void setUsuarioId(String usuarioId) {
-	        this.usuarioId = usuarioId;
-	    }
-}
+	    
+	    

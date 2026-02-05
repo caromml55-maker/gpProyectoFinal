@@ -54,26 +54,7 @@ public class NotificationService {
 		return Response.ok(n).build();
 	}
 
-	@POST
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Response createNotification(Notification n, @Context UriInfo uriInfo) {
-
-		try {
-			gn.crearNotification(n);
-		} catch(Exception e) {
-			Error error = new Error(500,"Error interno",e.getMessage());
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-					.entity(error).build();
-		}
-
-		URI location = uriInfo.getAbsolutePathBuilder()
-				.path(n.getId()).build();
-
-		return Response.created(location)
-				.entity(n).build();
-	}
-
+	
 	@PUT
 	@Path("/{id}")
 	@Consumes("application/json")
@@ -109,5 +90,30 @@ public class NotificationService {
 
 		return Response.ok(n).build();
 	}
+	@GET
+    @Path("/usuario/{uid}")
+    @Produces("application/json")
+    public Response getNotificacionesPorUsuario(@PathParam("uid") String uid) {
+        try {
+            List<Notification> lista = gn.getNotificacionesPorUsuario(uid);
+            
+            return Response.ok(lista).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(500).entity("Error al obtener notificaciones").build();
+        }
+    }
+    
+    @PUT
+    @Path("/{id}/leido")
+    @Produces("application/json")
+    public Response marcarComoLeida(@PathParam("id") Long id) {
+        try {
+
+             return Response.ok("{\"mensaje\":\"Actualizado\"}").build();
+        } catch (Exception e) {
+            return Response.status(500).entity("Error").build();
+        }
+    }
 
 }
